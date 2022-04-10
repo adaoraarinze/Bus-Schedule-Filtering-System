@@ -37,7 +37,6 @@ public class Main {
 
                                 if (input.hasNextInt()) {
                                     int secondStop = input2.nextInt();
-                                    Sorts.TSTCreate();
                                     quit = true;
                                 }
 
@@ -64,12 +63,47 @@ public class Main {
                 }
 
                 else if (option == 2) {
-                    System.out.println("okie");
+                    Stops.TSTCreate();
+                    Stops.searchStops("CRESCENT");
                     option = 0;
                 }
 
                 else if (option == 3) {
-                    System.out.println("ok");
+                    System.out.print("What time do you want your bus to arrive at? " +
+                            "(please format the time as hh:mm:ss): ");
+                    Scanner userTime = new Scanner(System.in);
+                    String time = "";
+                    boolean quit = false;
+                    while(!quit) {
+                        if (userTime.hasNext()) {
+                            time = userTime.next();
+                        }
+
+                        ArrayList<String> array = Arrivals.readFile();
+                        ArrayList<String> arrayTimes = Arrivals.searchTimes(array, time);
+
+                        if(arrayTimes != null && arrayTimes.size() != 0) {
+                            System.out.println("The stops that arrive at " + time + " are listed as follows:");
+                            for (String element : arrayTimes) {
+                                System.out.println(element);
+                            }
+                            quit = true;
+                        }
+
+                        else if(time.equalsIgnoreCase("quit")){
+                            quit = true;
+                        }
+
+
+                        else{
+                            System.out.println("Error, you entered an invalid time format or there are no trips that " +
+                                    "match that time.");
+                            userTime = new Scanner(System.in);
+                            System.out.print("What time do you want your bus to arrive at? " +
+                                    "(please format the time as hh:mm:ss): ");
+                        }
+                    }
+
                     option = 0;
                 }
 
