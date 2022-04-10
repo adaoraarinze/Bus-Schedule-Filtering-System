@@ -23,54 +23,85 @@ public class Main {
             }
 
                 if (option == 1 ) {
-                    System.out.print("Which 2 stops do you want a path between? (or enter quit) ");
+                    System.out.print("What is the first stop that you want a path between? (or enter quit): ");
                     Scanner input = new Scanner(System.in);
                     boolean quit = false;
                     while (!quit) {
                         if (input.hasNextInt()) {
-                            boolean quit2 = false;
-                            while (!quit2) {
 
                                 int firstStop = input.nextInt();
-                                System.out.print("And the second stop? (or enter quit) ");
-                                Scanner input2 = new Scanner(System.in);
+                                System.out.print("And the second stop? (or enter quit): ");
+                                input = new Scanner(System.in);
 
                                 if (input.hasNextInt()) {
-                                    int secondStop = input2.nextInt();
+                                    int secondStop = input.nextInt();
                                     quit = true;
                                 }
 
                                 else if (input.hasNext("quit")) {
-                                    quit2 = true;
+                                    quit = true;
                                 }
 
                                 else {
                                     System.out.println("Error, enter a valid input or quit.");
                                     input.next();
-                                    System.out.print("Which 2 stops do you want a path between? (or enter quit): ");
+                                    System.out.print("What is the first stop that you want a path between? (or enter quit): ");
                                 }
-                            }
 
-                        } else if (input.hasNext("quit")) {
+
+                        }
+
+                        else if (input.hasNext("quit")) {
                             quit = true;
-                        } else {
+                        }
+
+                        else {
                             System.out.println("Error, enter a valid input or quit.");
                             input.next();
-                            System.out.print("Which 2 stops do you want a path between? (or enter quit): ");
+                            System.out.print("What is the first stop that you want a path between? (or enter quit): ");
                         }
                     }
                     option = 0;
                 }
 
                 else if (option == 2) {
-                    Stops.TSTCreate();
-                    Stops.searchStops("CRESCENT");
+                    System.out.print("What is the name of the bus stop you are searching for? (or enter quit): ");
+                    Scanner input = new Scanner(System.in);
+                    String stopName = "";
+                    boolean quit = false;
+                    while(!quit) {
+                        if (input.hasNext()) {
+                            stopName = input.nextLine();
+                        }
+
+                        ArrayList<String> arrayStops = Stops.searchStops(stopName);
+
+                        if(arrayStops.size() != 0) {
+                            System.out.println("The stop(s) that match " + stopName + " are listed as follows:");
+                            for (String element : arrayStops) {
+                                System.out.println(element);
+                            }
+                            quit = true;
+                        }
+
+                        else if(stopName.equalsIgnoreCase("quit")){
+                            quit = true;
+                        }
+
+                        else{
+                            System.out.println("Error, you entered an invalid input or there are no bus stops " +
+                                    "that match this criteria");
+                            input = new Scanner(System.in);
+                            System.out.print("What is the name of the bus stop you are searching for? (or enter quit): ");
+                        }
+                    }
+
                     option = 0;
                 }
 
                 else if (option == 3) {
                     System.out.print("What time do you want your bus to arrive at? " +
-                            "(please format the time as hh:mm:ss): ");
+                            "(please format the time as hh:mm:ss or enter quit): ");
                     Scanner userTime = new Scanner(System.in);
                     String time = "";
                     boolean quit = false;
@@ -83,7 +114,7 @@ public class Main {
                         ArrayList<String> arrayTimes = Arrivals.searchTimes(array, time);
 
                         if(arrayTimes != null && arrayTimes.size() != 0) {
-                            System.out.println("The stops that arrive at " + time + " are listed as follows:");
+                            System.out.println("The trip(s) that will arrive at " + time + " are listed as follows:");
                             for (String element : arrayTimes) {
                                 System.out.println(element);
                             }
@@ -100,7 +131,7 @@ public class Main {
                                     "match that time.");
                             userTime = new Scanner(System.in);
                             System.out.print("What time do you want your bus to arrive at? " +
-                                    "(please format the time as hh:mm:ss): ");
+                                    "(please format the time as hh:mm:ss or enter quit) : ");
                         }
                     }
 
@@ -113,7 +144,6 @@ public class Main {
 
                 else {
                     System.out.println("Error, enter a valid input or quit.");
-                    inputs.next();
                 }
         }
     }

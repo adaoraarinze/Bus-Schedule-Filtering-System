@@ -1,4 +1,3 @@
-import java.io.FileNotFoundException;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -7,16 +6,16 @@ import java.util.ArrayList;
 import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.TST;
 
-public class Sorts {
-    public static ArrayList<String> stopList = new ArrayList<>();
+public class Stops {
+    public static ArrayList<String> fileList = new ArrayList<>();
     public static ArrayList<String> readFile(){
+        ArrayList<String> stopList = new ArrayList<>();
         try
         {
             FileReader fileReader = new FileReader("stops.txt");
             // Enter the entire path of the file if needed
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             boolean endOfFile = false;
-
             while(!endOfFile)
             {
                 String newLine = bufferedReader.readLine();
@@ -51,6 +50,7 @@ public class Sorts {
                     }
 
                     stopList.add(stopName);
+                    fileList.add(newLine);
                 }
                 else
                 {
@@ -69,31 +69,30 @@ public class Sorts {
         return stopList;
     }
 
-    public static TST<String> TSTCreate() {
+    public static TST<Integer> TSTCreate() {
         ArrayList<String> stops = readFile();
-        var tree = new TST<String>();
+        TST<Integer> tree = new TST<>();
 
-        for(int i = 1; i < stops.size(); i++){
+        for(int i = 0; i < stops.size(); i++){
             String tempStop = stops.get(i);
-            tree.put(Integer.toString(i), tempStop);
+            tree.put(tempStop, i);
         }
-
-        StdOut.println("keys(\"\"):");
-        for (String key : tree.keys()) {
-            StdOut.println(key + " " + tree.get(key));
-        }
-        StdOut.println();
 
         return tree;
 
     }
 
-    public static String searchStops(String search){
-        var tree = TSTCreate();
-        tree.keysThatMatch(search);
-        for (String i : tree.keysThatMatch(search))
-            StdOut.println(i);
+    public static ArrayList<String> searchStops(String search){
+        TST<Integer> tree = TSTCreate();
+        ArrayList<String> stops = new ArrayList<>();
 
-        return null;
+
+        for (String i : tree.keysThatMatch(search)) {
+            //StdOut.println(i);
+            //stops.add(i);
+            stops.add(fileList.get(Integer.parseInt(String.valueOf(tree.get(i)))));
+        }
+
+        return stops;
     }
 }
