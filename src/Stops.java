@@ -3,7 +3,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.TST;
 
 public class Stops {
@@ -87,9 +86,7 @@ public class Stops {
         ArrayList<String> stops = new ArrayList<>();
 
 
-        for (String i : tree.keysThatMatch(search)) {
-            //StdOut.println(i);
-            //stops.add(i);
+        for (String i : tree.keysWithPrefix(search)) {
             stops.add(fileList.get(Integer.parseInt(String.valueOf(tree.get(i)))));
         }
 

@@ -10,7 +10,6 @@ public class Arrivals {
         try
         {
             FileReader fileReader = new FileReader("stop_times.txt");
-            // Enter the entire path of the file if needed
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             boolean endOfFile = false;
             while(!endOfFile)
