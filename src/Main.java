@@ -30,21 +30,38 @@ public class Main {
                         if (input.hasNextInt()) {
 
                                 int firstStop = input.nextInt();
-                                System.out.print("And the second stop? (or enter quit): ");
-                                input = new Scanner(System.in);
+                                ArrayList<String> stopList = Paths.readFile();
+                                if(Paths.isStop(stopList, String.valueOf(firstStop))) {
+                                    System.out.print("And the second stop? (or enter quit): ");
+                                    input = new Scanner(System.in);
 
-                                if (input.hasNextInt()) {
-                                    int secondStop = input.nextInt();
-                                    quit = true;
-                                }
+                                    if (input.hasNextInt()) {
+                                        int secondStop = input.nextInt();
+                                        if(Paths.isStop(stopList, String.valueOf(secondStop))) {
+                                            quit = true;
+                                        }
 
-                                else if (input.hasNext("quit")) {
-                                    quit = true;
+                                        else {
+                                            System.out.println("Error, bus stop does not exist.");
+                                            input = new Scanner(System.in);
+                                            System.out.print("What is the first stop that you want a path between? (or enter quit): ");
+                                        }
+                                    }
+
+                                    else if (input.hasNext("quit")) {
+                                        quit = true;
+                                    }
+
+                                    else {
+                                        System.out.println("Error, enter a valid input or quit.");
+                                        input.next();
+                                        System.out.print("What is the first stop that you want a path between? (or enter quit): ");
+                                    }
                                 }
 
                                 else {
-                                    System.out.println("Error, enter a valid input or quit.");
-                                    input.next();
+                                    System.out.println("Error, bus stop does not exist.");
+                                    input = new Scanner(System.in);
                                     System.out.print("What is the first stop that you want a path between? (or enter quit): ");
                                 }
 

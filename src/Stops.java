@@ -12,7 +12,6 @@ public class Stops {
         try
         {
             FileReader fileReader = new FileReader("stops.txt");
-            // Enter the entire path of the file if needed
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             boolean endOfFile = false;
             while(!endOfFile)
